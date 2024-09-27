@@ -8,6 +8,10 @@ on:
       - main  # Specify your default branch
       - task_1_vasylk
 
+permissions: 
+    id-token: write
+    contents: read
+
 jobs:
   terraform-check:
     name: Terraform Check (fmt)
