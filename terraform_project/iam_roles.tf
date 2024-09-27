@@ -1,12 +1,12 @@
 resource "aws_iam_openid_connect_provider" "GitHub" {
-    url = "token.actions.githubusercontent.com"
-    client_id_list = [ "sts.amazon.com" ]
-    thumbprint_list = [ "6938fd4d98bab03faadb97b34396831e3780aea1" ]
+  url             = "token.actions.githubusercontent.com"
+  client_id_list  = ["sts.amazon.com"]
+  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
 }
 
 resource "aws_iam_role" "GitHub_Actions" {
-    name = "GitHub_Actions"
-    assume_role_policy = <<EOF
+  name               = "GitHub_Actions"
+  assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -32,7 +32,7 @@ EOF
 
 locals {
   policies = [
-	"arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+    "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
     "arn:aws:iam::aws:policy/AmazonRoute53FullAccess",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
     "arn:aws:iam::aws:policy/IAMFullAccess",
@@ -44,7 +44,7 @@ locals {
 }
 
 resource "aws_iam_role_policy_attachment" "github_actions_policies" {
-    for_each = toset(local.policies)
-    role = aws_iam_role.GitHub_Actions.name
-    policy_arn = each.key
+  for_each   = toset(local.policies)
+  role       = aws_iam_role.GitHub_Actions.name
+  policy_arn = each.key
 }
