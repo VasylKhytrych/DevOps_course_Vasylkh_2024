@@ -9,6 +9,6 @@ terraform {
 }
 
 provider "aws" {
-  profile = "devops_lab_1"
+  #profile = "devops_lab_1"
   region = "eu-central-1"
 }
