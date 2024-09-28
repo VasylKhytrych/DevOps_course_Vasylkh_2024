@@ -58,8 +58,7 @@ Will be described only files and folders required for 1-st task.
 ## How to Use
 
 1. **Create S3 bucket and DynamoDB table manually (best practice, to avoid deletion of key files on "terraform destroy"):**  
-   Create S3 for terraform project backend (tfstate) and DynamoDB for state lock. And copy paste S3 and DB path/link to config file "main.tf"
-   ```terraform init```
+   Create S3 for terraform project backend (tfstate) and DynamoDB for state lock. And copy paste S3 and DB path/link in config file "main.tf"
 2. **Initialize Terraform:**  
    Create basic tf file in S3.
    ```terraform init```
@@ -68,4 +67,4 @@ Will be described only files and folders required for 1-st task.
    ```terraform plan```  
    Apply changes by running:
    ```terraform apply```
-4. **Now you have up and running Terraform using S3 bucket and Dynamo DB as a backend**:  
+4. **Now you have up and running Terraform using S3 bucket and Dynamo DB as a backend**  

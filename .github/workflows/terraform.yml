@@ -10,7 +10,7 @@ on:
 
 env:
     TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
-    AWS_DEF_REGION: ${{ vars.AWS_DEF_REGION}}
+    AWS_DEF_REGION: ${{ vars.AWS_DEF_REGION }}
 
 permissions: 
     id-token: write
@@ -59,7 +59,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }} # Store this in GitHub Secrets
-          aws-region: env.AWS_DEF_REGION # Specify your region
+          aws-region: ${{ env.AWS_DEF_REGION }} # Specify your region
 
       - name: Terraform Init
         run: terraform init
