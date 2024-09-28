@@ -3,7 +3,7 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-#variable "ami" {
-#  description = ""
-#  
-#}
+variable "region" {
+  description = "Default region in AWS"
+  default     = "eu-central-1"
+}

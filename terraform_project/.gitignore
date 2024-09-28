@@ -1,3 +1,4 @@
+#Excluding all useless/hidden/private files and dirs
 .terraform/
 *.tfstate
 *.tfstate.backup

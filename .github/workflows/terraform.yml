@@ -1,12 +1,16 @@
 name: Terraform CI/CD Workflow
 
-# Trigger the workflow on pull requests and pushes to the default branch
+# Trigger the workflow on pull requests and pushes to the default and custom branch
 on:
   pull_request:
   push:
     branches:
       - main  # Specify your default branch
-      - task_1_vasylk
+      - task_1_vasylk # Custom branch
+
+env:
+    TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
+    AWS_DEF_REGION: ${{ vars.AWS_DEF_REGION}}
 
 permissions: 
     id-token: write
@@ -28,7 +32,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.2
         with:
-          terraform_version: 1.9.6 # Specify your Terraform version
+          terraform_version: ${{ env.TERRAFORM_VERSION }} 
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
@@ -49,13 +53,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.2
         with:
-          terraform_version: 1.9.6
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }} # Store this in GitHub Secrets
-          aws-region: eu-central-1 # Specify your region
+          aws-region: env.AWS_DEF_REGION # Specify your region
 
       - name: Terraform Init
         run: terraform init
@@ -81,13 +85,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.2
         with:
-          terraform_version: 1.9.6
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: eu-central-1
+          aws-region: env.AWS_DEF_REGION
 
       - name: Terraform Init
         run: terraform init
