@@ -91,7 +91,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: env.AWS_DEF_REGION
+          aws-region: ${{ env.AWS_DEF_REGION }}
 
       - name: Terraform Init
         run: terraform init
