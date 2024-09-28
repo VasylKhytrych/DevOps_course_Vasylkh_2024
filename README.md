@@ -41,7 +41,7 @@ Will be described only files and folders required for 1-st task.
 - **```backend.tf```**:  
   The backend terraform configuration.
 - **```iam_roles.tf```**:  
-  This file contains all recources which were created in IAM (roles, providers, policies).
+  This file contains all resources that were created in IAM (roles, providers, policies).
 - **```main.tf```**:  
   The main configuration file where the core infrastructure is defined.
 - **```s3.tf```**:  
