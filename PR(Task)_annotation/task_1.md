@@ -5,15 +5,15 @@
 
 - MFA User configured (10 points)
   - [+] Provide a screenshot of the non-root account secured by MFA (ensure sensitive information is not shared).
-  - My comment: https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/tree/task_1_vasylk/Screens
+    My comment: https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/tree/task_1_vasylk/Screens
 
 - Bucket and GithubActionsRole IAM role configured (30 points)
   - Terraform code is created and includes:
   - [+] A bucket for Terraform states
-  - My comment: Created S3 bucket and DynamoDB table manually (best practice, to avoid deletion of a key files on "terraform destroy"). Copy pasted S3 and DB path/link in config file **"main.tf"**. Performed just bucket creation as approve for this task, please check **s3.tf** file and workflow status.
+    My comment: Created S3 bucket and DynamoDB table manually (best practice, to avoid deletion of a key files on "terraform destroy"). Copy pasted S3 and DB path/link in config file **"main.tf"**. Performed just bucket creation as approve for this task, please check **s3.tf** file and workflow status.
 
   - [+] IAM role with correct Identity-based and Trust policies
-  - My comment: all created via Terraform, please check **iam_roles.tf** and workflow actions.
+    My comment: all created via Terraform, please check **iam_roles.tf** and workflow actions.
 
 - Github Actions workflow is created (30 points)
   - [+] Workflow includes all jobs
