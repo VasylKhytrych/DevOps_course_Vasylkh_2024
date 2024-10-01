@@ -5,9 +5,9 @@ on:
   pull_request:
     branches:
         - main
-  push:
-    branches:
-        - task_1_vasylk # Custom branch
+#  push:
+#    branches:
+#        - task_1_vasylk # Custom branch
 
 env:
     TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
