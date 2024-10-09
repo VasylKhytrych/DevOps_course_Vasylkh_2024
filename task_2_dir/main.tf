@@ -10,5 +10,5 @@ terraform {
 
 provider "aws" {
   #profile = "devops_lab_1"
-  region = var.region
+  region = var.default_region
 }

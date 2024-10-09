@@ -7,7 +7,7 @@ on:
         - main
   push:
     branches:
-        - task_1_vasylk # Custom branch
+        - task_2_vasylk # Custom branch
   workflow_dispatch:
 
 env:
