@@ -35,7 +35,7 @@ resource "aws_iam_policy" "s3_policy" {
 
   tags = {
     Creator = "Terrafrom"
-    Name    = "Policy for role -> ec2 to s3"
+    Name    = "Policy for role ec2_s3_role"
   }
 }
 
