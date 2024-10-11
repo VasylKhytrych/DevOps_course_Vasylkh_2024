@@ -25,7 +25,7 @@ jobs:
 
     defaults:
         run:
-            working-directory: task_2_dir
+            working-directory: ${{ env.WORK_DIR }}
 
     steps:
       - name: Checkout Code
@@ -45,7 +45,7 @@ jobs:
   
     defaults:
         run:
-            working-directory: task_2_dir
+            working-directory: ${{ env.WORK_DIR }}
             
     needs: terraform-check
     steps:
@@ -75,7 +75,7 @@ jobs:
 
     defaults:
         run:
-            working-directory: task_2_dir
+            working-directory: ${{ env.WORK_DIR }}
             
     needs: terraform-plan
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_2_vasylk'
