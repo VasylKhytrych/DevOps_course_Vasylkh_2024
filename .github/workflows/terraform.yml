@@ -13,6 +13,7 @@ on:
 env:
     TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
     AWS_DEF_REGION: ${{ vars.AWS_DEF_REGION }}
+    WORK_DIR: ${{ vars.WORK_DIR }}
 
 permissions: 
     id-token: write
