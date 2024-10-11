@@ -55,13 +55,13 @@ resource "aws_security_group" "private_sg" {
   vpc_id      = var.vpc_main.id
 
   ingress {
-    description     = "Allow inbound traffic from public subnets"
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
+    description = "Allow inbound traffic from public subnets"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     security_groups = [
       aws_security_group.public_access_sg.id,
-      aws_security_group.bastion_sg.id]
+    aws_security_group.bastion_sg.id]
   }
 
   ingress {
@@ -69,7 +69,7 @@ resource "aws_security_group" "private_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "icmp"
-    cidr_blocks = [var.vpc_main.cidr_block]    
+    cidr_blocks = [var.vpc_main.cidr_block]
   }
 
   ingress {
@@ -117,7 +117,7 @@ resource "aws_security_group" "bastion_sg" {
   tags = {
     Name    = "Bastion SG"
     Creator = "Terraform"
-  }  
+  }
 }
 
 # resource "aws_security_group_rule" "inbound_http" {

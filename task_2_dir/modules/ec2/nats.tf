@@ -4,6 +4,6 @@ resource "aws_nat_gateway" "nat_gw" {
 
   tags = {
     Creator = "Terraform"
-    Name = "NAT_GW"
+    Name    = "NAT_GW"
   }
 }
