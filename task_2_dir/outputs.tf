@@ -6,7 +6,7 @@ module "vpc" {
 
 module "ec2" {
   source                    = "./modules/ec2"
-  vpc_main                    = module.vpc.vpc_main
+  vpc_main                  = module.vpc.vpc_main
   public_subnets_cidr       = ["10.0.10.0/24", "10.0.11.0/24"]
   public_subnets_id         = module.vpc.public_subnets
   private_subnets_id        = module.vpc.private_subnets

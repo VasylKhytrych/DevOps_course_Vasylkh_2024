@@ -1,13 +1,7 @@
-name: Terraform CI/CD Workflow
+name: Terraform destroy
 
-# Trigger the workflow on pull requests and pushes to the default and custom branch
+# Trigger the workflow manually
 on:
-  pull_request:
-    branches:
-        - main
-  push:
-#    branches:
-#        - task_2_vasylk # Custom branch
   workflow_dispatch:
     inputs:
       branch:
@@ -74,17 +68,15 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-  terraform-apply:
-    name: Terraform Apply
+  terraform-destroy:
+    name: Terraform Destroy
     runs-on: ubuntu-latest
-
+  
     defaults:
         run:
             working-directory: task_2_dir
             
-    needs: terraform-plan
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_1_vasylk'
-
+    needs: terraform-check
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -97,11 +89,11 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: ${{ env.AWS_DEF_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }} # Store this in GitHub Secrets
+          aws-region: ${{ env.AWS_DEF_REGION }} # Specify your region
 
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
