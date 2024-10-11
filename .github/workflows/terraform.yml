@@ -6,14 +6,9 @@ on:
     branches:
         - main
   push:
-#    branches:
-#        - task_2_vasylk # Custom branch
+    branches:
+        - task_2_vasylk # Custom branch
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch to run the workflow on"
-        required: true
-        default: "main"
 
 env:
     TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
