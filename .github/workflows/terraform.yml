@@ -78,7 +78,7 @@ jobs:
             working-directory: task_2_dir
             
     needs: terraform-plan
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_1_vasylk'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_2_vasylk'
 
     steps:
       - name: Checkout Code

@@ -11,6 +11,11 @@ resource "aws_iam_role" "ec2_s3_role" {
       }
     }]
   })
+
+  tags = {
+    Creator = "Terrafrom"
+    Name    = "IAM Role for communication ec2 to s3"
+  }
 }
 
 resource "aws_iam_policy" "s3_policy" {
@@ -27,6 +32,11 @@ resource "aws_iam_policy" "s3_policy" {
       "Resource" : "arn:aws:s3:::bucket-with-ssh-pem-private/*"
     }]
   })
+
+  tags = {
+    Creator = "Terrafrom"
+    Name    = "Policy for role -> ec2 to s3"
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_role_attach" {
