@@ -4,6 +4,14 @@ resource "aws_instance" "bastion" {
   subnet_id     = var.public_subnets_id[0]
   key_name = var.default_keypair["name"]
   security_groups = [aws_security_group.bastion_sg.id]
+  iam_instance_profile = var.iam_instance_profile_name
+
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo yum install -y aws-cli
+              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+              EOF
 
   tags = {
     Name    = "Jump host"
@@ -18,9 +26,17 @@ resource "aws_instance" "public_instance" {
   associate_public_ip_address = true
   key_name = var.default_keypair["name"]
   security_groups = [aws_security_group.public_access_sg.id]
+  iam_instance_profile = var.iam_instance_profile_name
   
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo yum install -y aws-cli
+              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+              EOF
+
   tags = {
-    Name    = "Pub_sub_instance_2"
+    Name    = "Pub_instance_2"
     Creator = "Terraform"
   }
 }
@@ -31,9 +47,17 @@ resource "aws_instance" "private_instance_1" {
   subnet_id     = var.private_subnets_id[0]
   key_name = var.default_keypair["name"]
   security_groups = [aws_security_group.private_sg.id]
+  iam_instance_profile = var.iam_instance_profile_name
   
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo yum install -y aws-cli
+              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+              EOF
+
   tags = {
-    Name    = "Priv_sub_instance_1"
+    Name    = "Priv_instance_1"
     Creator = "Terraform"
   }
 }
@@ -44,9 +68,17 @@ resource "aws_instance" "private_instance_2" {
   subnet_id     = var.private_subnets_id[1]
   key_name = var.default_keypair["name"]
   security_groups = [aws_security_group.private_sg.id]
+  iam_instance_profile = var.iam_instance_profile_name
   
+  user_data = <<-EOF
+              #!/bin/bash
+              sudo yum install -y aws-cli
+              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+              EOF
+
   tags = {
-    Name    = "Priv_sub_instance_2"
+    Name    = "Priv_instance_2"
     Creator = "Terraform"
   }
 }

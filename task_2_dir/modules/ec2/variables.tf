@@ -9,9 +9,9 @@ variable "ami_id_default" {
   default     = "ami-0592c673f0b1e7665"
 }
 
-variable "vpc_id" {
+variable "vpc_main" {
   description = "The ID of the VPC"
-  type        = string
+#  type        = string
 }
 
 variable "public_subnets_cidr" {
@@ -33,4 +33,9 @@ variable "private_subnets_id" {
 variable "default_keypair" {
   description = "Default SSH keypair"
   type = map(string)
+}
+
+variable "iam_instance_profile_name" {
+  description = "IAM role for access to s3 with key"
+  type = string
 }

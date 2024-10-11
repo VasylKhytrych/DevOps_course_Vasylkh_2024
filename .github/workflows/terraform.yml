@@ -3,11 +3,11 @@ name: Terraform CI/CD Workflow
 # Trigger the workflow on pull requests and pushes to the default and custom branch
 on:
   pull_request:
-    branches:
-        - main
+#    branches:
+#        - main
   push:
-    branches:
-        - task_2_vasylk # Custom branch
+#    branches:
+#        - task_2_vasylk # Custom branch
   workflow_dispatch:
 
 env:
@@ -25,7 +25,7 @@ jobs:
 
     defaults:
         run:
-            working-directory: task_1_dir
+            working-directory: task_2_dir
 
     steps:
       - name: Checkout Code
@@ -45,7 +45,7 @@ jobs:
   
     defaults:
         run:
-            working-directory: task_1_dir
+            working-directory: task_2_dir
             
     needs: terraform-check
     steps:
@@ -75,7 +75,7 @@ jobs:
 
     defaults:
         run:
-            working-directory: task_1_dir
+            working-directory: task_2_dir
             
     needs: terraform-plan
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_1_vasylk'

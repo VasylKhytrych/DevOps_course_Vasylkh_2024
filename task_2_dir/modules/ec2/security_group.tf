@@ -1,7 +1,7 @@
 resource "aws_security_group" "public_access_sg" {
   description = "Security group for public subnets"
   name        = "public_access_sg"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.vpc_main.id
 
   ingress {
     description = "Allow inbound HTTP"
@@ -52,7 +52,7 @@ resource "aws_security_group" "public_access_sg" {
 resource "aws_security_group" "private_sg" {
   name        = "private_sg"
   description = "Security group for private subnets"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.vpc_main.id
 
   ingress {
     description     = "Allow inbound traffic from public subnets"
@@ -62,6 +62,14 @@ resource "aws_security_group" "private_sg" {
     security_groups = [
       aws_security_group.public_access_sg.id,
       aws_security_group.bastion_sg.id]
+  }
+
+  ingress {
+    description = "Allow inbound ICMP from VPC"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "icmp"
+    cidr_blocks = [var.vpc_main.cidr_block]    
   }
 
   ingress {
@@ -89,7 +97,7 @@ resource "aws_security_group" "private_sg" {
 resource "aws_security_group" "bastion_sg" {
   description = "Security group for jump host"
   name        = "bastion_sg"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.vpc_main.id
 
   ingress {
     description = "SSH from provider ip"

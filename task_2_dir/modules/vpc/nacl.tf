@@ -92,6 +92,14 @@ resource "aws_network_acl" "private_nacl" {
     to_port    = 0
   }
 
+  ingress {
+    protocol   = "icmp"
+    rule_no    = 120
+    action     = "allow"
+    cidr_block = aws_vpc.main_vpc.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
   # Allow inbound ephemeral ports
   ingress {
     protocol   = "tcp"

@@ -5,12 +5,13 @@ module "vpc" {
 }
 
 module "ec2" {
-  source              = "./modules/ec2"
-  vpc_id              = module.vpc.vpc_id
-  public_subnets_cidr = ["10.0.10.0/24", "10.0.11.0/24"]
-  public_subnets_id   = module.vpc.public_subnets
-  private_subnets_id  = module.vpc.private_subnets
-  default_keypair     = var.default_keypair
+  source                    = "./modules/ec2"
+  vpc_main                    = module.vpc.vpc_main
+  public_subnets_cidr       = ["10.0.10.0/24", "10.0.11.0/24"]
+  public_subnets_id         = module.vpc.public_subnets
+  private_subnets_id        = module.vpc.private_subnets
+  default_keypair           = var.default_keypair
+  iam_instance_profile_name = module.iam.iam_instance_profile
 }
 
 module "iam" {
@@ -21,9 +22,9 @@ module "s3" {
   source = "./modules/s3"
 }
 
-output "vpc_id" {
+output "vpc_main" {
   description = "The ID of the VPC"
-  value       = module.vpc.vpc_id
+  value       = module.vpc.vpc_main
 }
 
 output "public_subnets" {
