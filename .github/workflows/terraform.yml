@@ -3,8 +3,8 @@ name: Terraform CI/CD Workflow
 # Trigger the workflow on pull requests and pushes to the default and custom branch
 on:
   pull_request:
-    branches:
-        - main
+#    branches:
+
   push:
     branches:
         - task_2_vasylk # Custom branch
