@@ -14,6 +14,26 @@ permissions:
     contents: read
 
 jobs:
+  gitguardian_scan:
+    name: GitGuardian secrets check
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+          working-directory: ${{ env.WORK_DIR }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run GitGuardian Scan
+        uses: GitGuardian/ggshield/actions/secret@v1.32.0
+        env:
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+
   terraform-check:
     name: Terraform Check (fmt)
     runs-on: ubuntu-latest
