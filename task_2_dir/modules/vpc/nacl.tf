@@ -2,34 +2,14 @@ resource "aws_network_acl" "public_nacl" {
   vpc_id     = aws_vpc.main_vpc.id
   subnet_ids = aws_subnet.public_subnets[*].id
 
-  # Allow inbound HTTP
+  # Allow inbound ICMP (ping) traffic
   ingress {
-    protocol   = "tcp"
-    rule_no    = 100
+    protocol   = "icmp"
+    rule_no    = 140
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = 80
-    to_port    = 80
-  }
-
-  # Allow inbound HTTPS
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 110
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 443
-    to_port    = 443
-  }
-
-  # Allow inbound SSH
-  ingress {
-    protocol   = "tcp"
-    rule_no    = 120
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 22
-    to_port    = 22
+    from_port  = 0
+    to_port    = 0
   }
 
   # Allow inbound ephemeral ports
@@ -42,32 +22,52 @@ resource "aws_network_acl" "public_nacl" {
     to_port    = 65535
   }
 
-  # Allow inbound ICMP (ping) traffic
+  # Allow inbound SSH
   ingress {
-    protocol   = "icmp"
-    rule_no    = 140
+    protocol   = "tcp"
+    rule_no    = 120
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = 8
+    from_port  = 22
+    to_port    = 22
+  }
+
+  # Allow inbound HTTPS
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 110
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 443
+    to_port    = 443
+  }
+
+  # Allow inbound HTTP
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 80
+    to_port    = 80
+  }
+
+  # Allow outbound traffic to a private subnet
+  egress {
+    protocol   = "all"
+    rule_no    = 110
+    action     = "allow"
+    cidr_block = aws_vpc.main_vpc.cidr_block
+    from_port  = 0
     to_port    = 0
   }
 
   # Allow all outbound traffic
   egress {
-    protocol   = "-1"
+    protocol   = "all"
     rule_no    = 100
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
-
-  # Allow outbound traffic to a private subnet
-  egress {
-    protocol   = "-1"
-    rule_no    = 110
-    action     = "allow"
-    cidr_block = aws_vpc.main_vpc.cidr_block
     from_port  = 0
     to_port    = 0
   }
@@ -82,16 +82,6 @@ resource "aws_network_acl" "private_nacl" {
   vpc_id     = aws_vpc.main_vpc.id
   subnet_ids = aws_subnet.private_subnets[*].id
 
-  # Allow inbound traffic from public subnets
-  ingress {
-    protocol   = "-1"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = aws_vpc.main_vpc.cidr_block
-    from_port  = 0
-    to_port    = 0
-  }
-
   ingress {
     protocol   = "icmp"
     rule_no    = 120
@@ -100,6 +90,7 @@ resource "aws_network_acl" "private_nacl" {
     from_port  = 0
     to_port    = 0
   }
+
   # Allow inbound ephemeral ports
   ingress {
     protocol   = "tcp"
@@ -110,9 +101,19 @@ resource "aws_network_acl" "private_nacl" {
     to_port    = 65535
   }
 
+  # Allow inbound traffic from public subnets
+  ingress {
+    protocol   = "all"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_vpc.main_vpc.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
   # Allow all outbound traffic
   egress {
-    protocol   = "-1"
+    protocol   = "all"
     rule_no    = 100
     action     = "allow"
     cidr_block = "0.0.0.0/0"
