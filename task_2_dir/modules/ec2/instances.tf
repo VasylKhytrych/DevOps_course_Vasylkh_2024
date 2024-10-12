@@ -6,12 +6,12 @@ resource "aws_instance" "bastion" {
   security_groups      = [aws_security_group.bastion_sg.id]
   iam_instance_profile = var.iam_instance_profile_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum install -y aws-cli
-              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
-              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
-              EOF
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum install -y aws-cli
+  #             aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             EOF
 
   tags = {
     Name    = "Jump host"
@@ -28,12 +28,12 @@ resource "aws_instance" "public_instance" {
   security_groups             = [aws_security_group.public_access_sg.id]
   iam_instance_profile        = var.iam_instance_profile_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum install -y aws-cli
-              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
-              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
-              EOF
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum install -y aws-cli
+  #             aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             EOF
 
   tags = {
     Name    = "Pub_instance_2"
@@ -49,12 +49,12 @@ resource "aws_instance" "private_instance_1" {
   security_groups      = [aws_security_group.private_sg.id]
   iam_instance_profile = var.iam_instance_profile_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum install -y aws-cli
-              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
-              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
-              EOF
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum install -y aws-cli
+  #             aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             EOF
 
   tags = {
     Name    = "Priv_instance_1"
@@ -70,12 +70,12 @@ resource "aws_instance" "private_instance_2" {
   security_groups      = [aws_security_group.private_sg.id]
   iam_instance_profile = var.iam_instance_profile_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum install -y aws-cli
-              aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
-              chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
-              EOF
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum install -y aws-cli
+  #             aws s3 cp s3://bucket-with-ssh-pem-private/default_linux_keypair.pem /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             chmod 400 /home/ec2-user/.ssh/default_linux_keypair.pem
+  #             EOF
 
   tags = {
     Name    = "Priv_instance_2"
