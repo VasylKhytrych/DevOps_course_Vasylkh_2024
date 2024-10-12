@@ -2,7 +2,7 @@ name: Terraform CI/CD Workflow
 
 # Trigger the workflow on pull requests and pushes to the default and custom branch
 on:
-  pull_request:
+#  pull_request:
 #    branches:
 
   push:
