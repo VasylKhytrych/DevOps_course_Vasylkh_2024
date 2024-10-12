@@ -78,7 +78,7 @@ jobs:
         run:
             working-directory: ${{ env.WORK_DIR }}
             
-    needs: terraform-check
+    needs: terraform-plan
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
