@@ -24,12 +24,31 @@ resource "aws_iam_policy" "s3_policy" {
 
   policy = jsonencode({
     "Version" : "2012-10-17",
-    "Statement" : [{
-      "Action" : [
-        "s3:GetObject"
-      ],
-      "Effect" : "Allow"
-      "Resource" : "arn:aws:s3:::bucket-with-ssh-pem-private/*"
+    "Statement" : [
+      {
+        "Action" : "s3:GetObject"
+        "Effect" : "Allow"
+        "Resource" : "arn:aws:s3:::bucket-with-ssh-pem-private/*"
+    }]
+  })
+
+  tags = {
+    Creator = "Terrafrom"
+    Name    = "Policy for role ec2_s3_role"
+  }
+}
+
+resource "aws_iam_policy" "ec2_describe" {
+  name        = "ec2_describe"
+  description = "Allow EC2 to describe EC2 names"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "ec2:DescribeInstances"
+        "Effect" : "Allow"
+        "Resource" : "*"
     }]
   })
 
@@ -42,6 +61,11 @@ resource "aws_iam_policy" "s3_policy" {
 resource "aws_iam_role_policy_attachment" "ec2_role_attach" {
   role       = aws_iam_role.ec2_s3_role.name
   policy_arn = aws_iam_policy.s3_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_describe_attach" {
+  role       = aws_iam_role.ec2_s3_role.name
+  policy_arn = aws_iam_policy.ec2_describe.arn
 }
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {

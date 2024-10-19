@@ -22,11 +22,6 @@ module "s3" {
   source = "./modules/s3"
 }
 
-#output "vpc_main" {
-#  description = "The ID of the VPC"
-#  value       = module.vpc.vpc_main
-#}
-
 output "public_subnets" {
   description = "List of public subnet IDs"
   value       = module.vpc.public_subnets[*]

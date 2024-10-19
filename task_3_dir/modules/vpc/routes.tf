@@ -47,7 +47,7 @@ resource "aws_route" "nat_route" {
 
 # Associate private subnets with the private route table
 resource "aws_route_table_association" "private_table_association" {
-  count          = length(var.private_subnets_cidr)
+  count          = length(local.private_subnets_cidr)
   subnet_id      = aws_subnet.private_subnets[count.index].id
   route_table_id = aws_route_table.private_route_table.id
 }

@@ -120,20 +120,37 @@ resource "aws_security_group" "bastion_sg" {
   }
 }
 
-# resource "aws_security_group_rule" "inbound_http" {
-#   from_port         = 80
-#   protocol          = "TCP"
-#   security_group_id = aws_security_group.public_access_sg.id
-#   to_port           = 80
-#   type              = "ingress"
-#   cidr_blocks       = ["0.0.0.0/0"]
-# }
+resource "aws_security_group" "k3s_sg" {
+  description = "Security group for k3s cluster"
+  name        = "k3s_sg"
+  vpc_id      = var.vpc_main.id
 
-# resource "aws_security_group_rule" "engress" {
-#   from_port         = 0
-#   protocol          = "all"
-#   security_group_id = aws_security_group.public_access_sg.id
-#   to_port           = 0
-#   type              = "egress"
-#   cidr_blocks       = ["0.0.0.0/0"]
-# }
+  ingress {
+    description = "Kubernetes API server communication"
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description     = "SSH from provider ip"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    cidr_blocks     = ["185.191.149.112/32"]
+    security_groups = [aws_security_group.bastion_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "all"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name    = "K3S SG"
+    Creator = "Terraform"
+  }
+}
