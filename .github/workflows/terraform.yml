@@ -1,13 +1,14 @@
-name: Terraform Destroy
+name: Terraform CI/CD Workflow
 
-# Trigger the workflow manually
+# Trigger the workflow on pull requests and pushes to the default and custom branch
 on:
+#  pull_request:
+#    branches:
+
+  push:
+    branches:
+        - task_3_vasylk # Custom branch
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch where you working now"
-        required: true
-        default: "task_3_dir"
 
 env:
     TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
@@ -19,7 +20,25 @@ permissions:
     contents: read
 
 jobs:
+  gitguardian_scan:
+    name: GitGuardian secrets check
+    runs-on: ubuntu-latest
 
+    defaults:
+      run:
+          working-directory: ${{ env.WORK_DIR }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run GitGuardian Scan
+        uses: GitGuardian/ggshield/actions/secret@v1.32.0
+        env:
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+            
   terraform-check:
     name: Terraform Check (fmt)
     runs-on: ubuntu-latest
@@ -70,15 +89,17 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-  terraform-destroy:
-    name: Terraform Destroy
+  terraform-apply:
+    name: Terraform Apply
     runs-on: ubuntu-latest
-  
+
     defaults:
         run:
             working-directory: ${{ env.WORK_DIR }}
             
     needs: terraform-plan
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_2_vasylk'
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -91,11 +112,11 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }} # Store this in GitHub Secrets
-          aws-region: ${{ env.AWS_DEF_REGION }} # Specify your region
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_DEF_REGION }}
 
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
