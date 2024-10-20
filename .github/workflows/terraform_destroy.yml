@@ -7,7 +7,7 @@ on:
       branch:
         description: "Branch where you working now"
         required: true
-        default: "task_2_dir"
+        default: "task_3_dir"
 
 env:
     TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
