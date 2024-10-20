@@ -44,10 +44,10 @@ resource "aws_instance" "k3s-worker" {
 
   user_data_replace_on_change = true
   user_data = "${file("${path.module}/user_data_sh/default_instance_setup.sh")}\n${templatefile("${path.module}/user_data_sh/k3s_worker.sh", {
-    MASTER_IP = aws_instance.k3s_master.private_ip
+    MASTER_IP = aws_instance.k3s-master.private_ip
   })}"
 
-  depends_on = [aws_instance.k3s_master] # Wait for the master node to be created to get and pass master node ip
+  depends_on = [aws_instance.k3s-master] # Wait for the master node to be created to get and pass master node ip
 
   tags = {
     Name    = "k3s-worker-${count.index + 1}"
