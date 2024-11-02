@@ -17,7 +17,8 @@ resource "aws_instance" "bastion" {
 #setup for master k3s node
 resource "aws_instance" "k3s-master" {
   ami                    = var.ami_id_default
-  instance_type          = var.instance_type_default
+#  instance_type          = var.instance_type_default
+  instance_type          = "t3.small"
   subnet_id              = var.private_subnets_id[0]
   key_name               = var.default_keypair["name"]
   iam_instance_profile   = var.iam_instance_profile_name
