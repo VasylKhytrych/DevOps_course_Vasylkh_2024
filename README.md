@@ -12,13 +12,17 @@ This repository contains the Terraform configuration files used for provisioning
 │           terraform_destroy.yml
 │
 ├───PR(Task)_annotation
-│       task_3.md
+│       task_4.md
 │
 ├───Screens
-│       Cluster_nodes_from_local.png
-│       Nginx_responce.png
+│       helm_verification.png
+│       Jenkins_via_pub.png
+│       Job_result.png
+│       New_user.png
+│       PVC_on_local.png
+│       PV_and_PVC.png
 │
-└───task_3_dir
+└───task_4_dir
     │   .gitignore
     │   .terraform.lock.hcl
     │   backend.tf
@@ -29,8 +33,16 @@ This repository contains the Terraform configuration files used for provisioning
     ├───.terraform
     │   └───terraform.tfstate
     │
+    ├───jenkins_config
+    │       hello_world_job.xml
+    │       jenkins-sa.yaml
+    │       jenkins-values.yaml
+    │       jenkins-volume.yaml
+    │       job_build_start.sh
+    │
     └───modules
         ├───ec2
+        │   │   albs.tf
         │   │   eips.tf
         │   │   instances.tf
         │   │   nats.tf
@@ -125,22 +137,22 @@ This repository contains the Terraform configuration files used for provisioning
     - Congrats, now you have working simple job.
   
 
-### Useful commands
+## Useful commands
 
-## Upgrading the Chart
+### Upgrading the Chart
 
 To upgrade the Jenkins Helm chart with new values or chart updates, use:
 ```bash
 helm upgrade jenkins ./jenkins-helm-chart --namespace jenkins -f custom-values.yaml
 ```
-## Uninstalling the Chart
+### Uninstalling the Chart
 
 To uninstall the Jenkins Helm chart and remove all associated resources, use:
 ```bash
 helm uninstall jenkins --namespace jenkins
 ```
 
-## Monitoring and Logs
+### Monitoring and Logs
 
 To check the status of the Jenkins deployment, use:
 ```bash
