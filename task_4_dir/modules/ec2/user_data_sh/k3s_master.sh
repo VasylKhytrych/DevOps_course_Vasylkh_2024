@@ -28,6 +28,10 @@ wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps
 wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/jenkins-values.yaml
 wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/hello_world_job.xml
 wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/job_build_start.sh
+
+chmod 777 /opt/Jenkins/conf/job_build_start.sh
+ln -s /opt/Jenkins/conf /root/conf
+
 # Create the Jenkins namespace and apply configurations
 cd /opt/Jenkins/conf
 kubectl create namespace jenkins
@@ -49,13 +53,14 @@ sleep 30
 
 # Change ownership of the Jenkins volume
 echo "Changing ownership of Jenkins volume..."
+#mkdir /data/jenkins-volume
 sudo chown -R 1000:1000 /data/jenkins-volume
 
 # Retrieve the Jenkins admin password and save to a file
 echo "Retrieving Jenkins admin password..."
 jsonpath="{.data.jenkins-admin-password}"
 secret=$(kubectl get secret -n jenkins jenkins -o jsonpath="$jsonpath")
-echo "$secret" | base64 --decode > /tmp/admin_jn_pass.txt
-echo "Jenkins admin password saved to /tmp/admin_jn_pass.txt"
+echo "$secret" | base64 --decode > /root/conf/admin_jn_pass.txt
+echo "Jenkins admin password saved to /root/conf/admin_jn_pass.txt"
 
 echo "Jenkins setup completed."

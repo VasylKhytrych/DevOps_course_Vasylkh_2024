@@ -35,7 +35,7 @@ resource "aws_instance" "k3s-master" {
 
 #setup for worker k3s node
 resource "aws_instance" "k3s-worker" {
-  count                  = 1
+  count                  = 0
   ami                    = var.ami_id_default
   instance_type          = var.instance_type_default
   subnet_id              = var.private_subnets_id[(count.index % 2) + 1] #worker nodes will be created in 2-nd and 3-th subnets
