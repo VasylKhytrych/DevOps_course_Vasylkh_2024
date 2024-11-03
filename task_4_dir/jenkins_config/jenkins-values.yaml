@@ -217,7 +217,7 @@ controller:
   # For minikube, set this to NodePort, elsewhere uses LoadBalancer
   # Use ClusterIP if your setup includes ingress controller
   # -- k8s service type
-  serviceType: ClusterIP
+  serviceType: NodePort
 
   # -- k8s service clusterIP. Only used if serviceType is ClusterIP
   clusterIp:
