@@ -20,6 +20,23 @@ resource "aws_security_group" "public_access_sg" {
   }
 
   ingress {
+    description = "Allow inbound HTTPS"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+    ingress {
+    description = "Allow inbound HTTPS"
+    from_port   = 32000
+    to_port     = 32000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
+  ingress {
     description = "Allow inbound SSH"
     from_port   = 22
     to_port     = 22

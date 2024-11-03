@@ -19,10 +19,10 @@ resource "aws_instance" "k3s-master" {
   ami                    = var.ami_id_default
 #  instance_type          = var.instance_type_default
   instance_type          = "t3.small"
-  subnet_id              = var.private_subnets_id[0]
+  subnet_id              = var.public_subnets_id[0]
   key_name               = var.default_keypair["name"]
   iam_instance_profile   = var.iam_instance_profile_name
-  vpc_security_group_ids = [aws_security_group.private_sg.id, aws_security_group.k3s_sg.id]
+  vpc_security_group_ids = [aws_security_group.private_sg.id, aws_security_group.k3s_sg.id, aws_security_group.public_access_sg.id]
 
   user_data_replace_on_change = true
   user_data                   = "${file("${path.module}/user_data_sh/default_instance_setup.sh")}\n${file("${path.module}/user_data_sh/k3s_master.sh")}"
@@ -35,7 +35,7 @@ resource "aws_instance" "k3s-master" {
 
 #setup for worker k3s node
 resource "aws_instance" "k3s-worker" {
-  count                  = 2
+  count                  = 1
   ami                    = var.ami_id_default
   instance_type          = var.instance_type_default
   subnet_id              = var.private_subnets_id[(count.index % 2) + 1] #worker nodes will be created in 2-nd and 3-th subnets
