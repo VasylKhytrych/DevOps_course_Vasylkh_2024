@@ -7,7 +7,7 @@ on:
 
   push:
     branches:
-        - task_3_vasylk # Custom branch
+        - task_4_vasylk # Custom branch
   workflow_dispatch:
 
 env:
@@ -98,7 +98,7 @@ jobs:
             working-directory: ${{ env.WORK_DIR }}
             
     needs: terraform-plan
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_2_vasylk'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/task_4_vasylk'
 
     steps:
       - name: Checkout Code

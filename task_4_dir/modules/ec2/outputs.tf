@@ -9,7 +9,7 @@ output "instance_ips" {
     bastion_priv_ip = aws_instance.bastion.private_ip
 
     k3s_master_ip = aws_instance.k3s-master.private_ip
+    k3s_master_ip = aws_instance.k3s-master.public_ip
     k3s_worker_ip = aws_instance.k3s-worker[*].private_ip
   }
 }
-
