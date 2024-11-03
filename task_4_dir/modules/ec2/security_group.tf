@@ -27,7 +27,7 @@ resource "aws_security_group" "public_access_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
+  ingress {
     description = "Allow inbound HTTPS"
     from_port   = 32000
     to_port     = 32000
