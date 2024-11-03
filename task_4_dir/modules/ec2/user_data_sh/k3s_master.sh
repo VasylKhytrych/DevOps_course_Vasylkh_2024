@@ -23,10 +23,11 @@ echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> ~/.bashrc
 source ~/.bashrc
 
 # Download configuration files
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/19df5492a5df540c79fd688722bdee0a796e0125/task_4_dir/jenkins_config/jenkins-volume.yaml
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/19df5492a5df540c79fd688722bdee0a796e0125/task_4_dir/jenkins_config/jenkins-sa.yaml
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/19df5492a5df540c79fd688722bdee0a796e0125/task_4_dir/jenkins_config/jenkins-values.yaml
-
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/jenkins-volume.yaml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/jenkins-sa.yaml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/jenkins-values.yaml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/hello_world_job.xml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_4_vasylk/task_4_dir/jenkins_config/job_build_start.sh
 # Create the Jenkins namespace and apply configurations
 cd /opt/Jenkins/conf
 kubectl create namespace jenkins
