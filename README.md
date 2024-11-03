@@ -108,46 +108,53 @@ This repository contains the Terraform configuration files used for provisioning
   The GitHub Actions workflow consists of 1 job:
   - **terraform-destroy**: Destroys all your terrafrom infrastructure (conditions: manual run only if your workflow file in default branch ). This is very useful, because you can perform destroy from mobile GH app or browser to stop billing.
 
-## How to Use (Infrastructure part)
+## How to Use
 
-1. **Create S3 bucket and DynamoDB table manually (best practice, to avoid deletion of a key files on "terraform destroy"):**  
-   Create S3 for terraform project backend (tfstate) and DynamoDB for state lock. And copy paste S3 and DB path/link in config file "main.tf"
-2. **Clone the Repository:**
-   ```bash
-   1. git clone https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024.git
-   2. cd task_3_dir
-   ```
-3. **Configure the AWS CLI:**  
-   Ensure you have configured the AWS CLI with the credentials of your IAM user.
+  1. **The most work was scripted and automated, you just need:**
+    - git clone https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024.git
+    - change variables in jenkins-values.yaml
+    - change wget links in user_data script for master node.
+    - run this workflow from GH Actions or locally with terraform
 
-4. **Set Up GitHub Secrets:** 
-   In your GitHub repository, navigate to Settings > Secrets and Variables > Actions. Add the following secrets:
-   - AWS_DEF_REGION: Default AWS region.
-   - TERRAFORM_VERSION: Terraform version to use in workflow.
-   - WORK_DIR: Working directory (should be name on directory where all .tf files located, on this case task_2_vasylk)
-   - AWS_ROLE_TO_ASSUME: AWS GitHub Actions role arn. (Better to create manually, to not lose connection with GitHab Actions.)
+  2. **Jenkins part** 
+    - login to jenkins node
+    - take password from file in "conf" dir
+    - login in Jenkins (port 32000) via admin account and pass
+    - create new user and generate api token
+    - take this toket and paste in "conf/job_build_start.sh" in "api token" key and run this
+    - Congrats, now you have working simple job.
+  
 
-5. **Make changes to terraform config**  
-   1. Make changes to basic config and variables (all variables.tf files).
-   2. Push them to work branch or do PR to main.
-   3. Monitor the Actions tab for the workflow run status.
+### Useful commands
 
-## How to Use (K8s part)
+## Upgrading the Chart
 
-1. **In this config k3s master and worker nodes will be deployed and installed automatically, so you need only to configure access from local PC and run containers with apps**  
-   1. Kubectl should be installed on your PC Win/Mac/Linux/. 
-   2. Copy k3s config from master node (path: /etc/rancher/k3s/k3s.yaml) to your local PC.
-   3. Add path to config file on local PC in $PATH or env variables.
-   4. Create SSH Tunnel in scheme: local PC -> bastion -> master_node. 
-   ```bash
-   # if you are using SSH Forwarding
-   ssh -f -N -A -L 6443:${SSH_PRIVATE_HOST_ADDR}:6443 ec2-user@${SSH_PUBLIC_HOST_ADDR}
-   #-L: Specifies the port forwarding, where the format is local_port:host:remote_port (6443:10.0.100.217:6443).
-   #login@${SSH_PUBLIC_HOST_ADDR}: SSH user and address of the public (bastion) host.
+To upgrade the Jenkins Helm chart with new values or chart updates, use:
+```bash
+helm upgrade jenkins ./jenkins-helm-chart --namespace jenkins -f custom-values.yaml
+```
+## Uninstalling the Chart
 
-   # if you are not using SSH Forwarding
-   ssh -f -N -L 6443:${SSH_PRIVATE_HOST_ADDR}:6443 ec2-user@${SSH_PUBLIC_HOST_ADDR} -i <path/to/your/key.pem>
-   #-L: Specifies the port forwarding, where the format is local_port:host:remote_port (6443:10.0.100.217:6443).
-   #login@${SSH_PUBLIC_HOST_ADDR}: SSH user and address of the public (bastion) host.
-   ```
-   5. Now you should be able to reach master node via local kubectl.
+To uninstall the Jenkins Helm chart and remove all associated resources, use:
+```bash
+helm uninstall jenkins --namespace jenkins
+```
+
+## Monitoring and Logs
+
+To check the status of the Jenkins deployment, use:
+```bash
+kubectl get deployment jenkins -n jenkins
+```
+To view the status of pods associated with Jenkins, use:
+```bash
+kubectl get pods -n jenkins
+```
+To view logs of the Jenkins pod, first identify the pod name, then use:
+```bash
+kubectl logs <jenkins-pod-name> -n jenkins
+```
+To follow the logs in real-time, use:
+```bash
+kubectl logs -f <jenkins-pod-name> -n jenkins
+```
