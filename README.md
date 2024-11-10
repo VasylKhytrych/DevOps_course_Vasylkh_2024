@@ -123,18 +123,15 @@ This repository contains the Terraform configuration files used for provisioning
 ## How to Use
 
   1. **The most work was scripted and automated, you just need:**
-    - git clone https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024.git
-    - change variables in jenkins-values.yaml
-    - change wget links in user_data script for master node.
+    - git clone https://github.com/VasylKhytrych/Helm-Jenkins-WP.git
+    - change variables in values.yaml
     - run this workflow from GH Actions or locally with terraform
 
-  2. **Jenkins part** 
-    - login to jenkins node
-    - take password from file in "conf" dir
+  2. **WP part** 
+    - login to wp node
     - login in Jenkins (port 32000) via admin account and pass
-    - create new user and generate api token
-    - take this toket and paste in "conf/job_build_start.sh" in "api token" key and run this
-    - Congrats, now you have working simple job.
+    - preform basic setup of WP
+    - Congrats, now you have working wp site.
   
 
 ## Useful commands
@@ -143,30 +140,30 @@ This repository contains the Terraform configuration files used for provisioning
 
 To upgrade the Jenkins Helm chart with new values or chart updates, use:
 ```bash
-helm upgrade jenkins ./jenkins-helm-chart --namespace jenkins -f custom-values.yaml
+helm upgrade wordpress ./wordpress-chart/ --namespace default
 ```
 ### Uninstalling the Chart
 
 To uninstall the Jenkins Helm chart and remove all associated resources, use:
 ```bash
-helm uninstall jenkins --namespace jenkins
+helm uninstall wordpress --namespace default
 ```
 
 ### Monitoring and Logs
 
 To check the status of the Jenkins deployment, use:
 ```bash
-kubectl get deployment jenkins -n jenkins
+kubectl get deployment wordpress -n default
 ```
 To view the status of pods associated with Jenkins, use:
 ```bash
-kubectl get pods -n jenkins
+kubectl get pods -n default
 ```
 To view logs of the Jenkins pod, first identify the pod name, then use:
 ```bash
-kubectl logs <jenkins-pod-name> -n jenkins
+kubectl logs <wp-pod-name> -n default
 ```
 To follow the logs in real-time, use:
 ```bash
-kubectl logs -f <jenkins-pod-name> -n jenkins
+kubectl logs -f <wp-pod-name> -n default
 ```
