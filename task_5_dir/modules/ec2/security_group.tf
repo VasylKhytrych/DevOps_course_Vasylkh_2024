@@ -20,23 +20,6 @@ resource "aws_security_group" "public_access_sg" {
   }
 
   ingress {
-    description = "Allow inbound HTTPS"
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "Allow inbound HTTPS"
-    from_port   = 32000
-    to_port     = 32000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-
-  ingress {
     description = "Allow inbound SSH"
     from_port   = 22
     to_port     = 22
@@ -157,6 +140,22 @@ resource "aws_security_group" "k3s_sg" {
   }
 
   ingress {
+    description = "Allow inbound HTTP"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Allow inbound service traffic for apps from alb"
+    from_port   = 30000
+    to_port     = 32000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     description = "Kubernetes API server communication"
     from_port   = 6443
     to_port     = 6443
@@ -182,6 +181,45 @@ resource "aws_security_group" "k3s_sg" {
 
   tags = {
     Name    = "K3S SG"
+    Creator = "Terraform"
+  }
+}
+
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-security-group"
+  description = "Security Group for ALB allowing inbound internet access"
+  vpc_id      = var.vpc_main.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.private_sg.id]
+  }
+
+  egress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.private_sg.id]
+  }
+
+  tags = {
+    Name    = "ALB Security Group"
     Creator = "Terraform"
   }
 }

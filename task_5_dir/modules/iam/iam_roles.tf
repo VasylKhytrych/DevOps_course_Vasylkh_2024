@@ -1,5 +1,5 @@
-resource "aws_iam_role" "ec2_s3_role" {
-  name = "ec2_s3_role"
+resource "aws_iam_role" "ec2-s3-role" {
+  name = "ec2-s3-role"
 
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -34,7 +34,7 @@ resource "aws_iam_policy" "s3_policy" {
 
   tags = {
     Creator = "Terrafrom"
-    Name    = "Policy for role ec2_s3_role"
+    Name    = "Policy for role ec2-s3-role"
   }
 }
 
@@ -54,24 +54,38 @@ resource "aws_iam_policy" "ec2_describe" {
 
   tags = {
     Creator = "Terrafrom"
-    Name    = "Policy for role ec2_s3_role"
+    Name    = "Policy for role ec2-s3-role"
   }
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_role_attach" {
-  role       = aws_iam_role.ec2_s3_role.name
+  role       = aws_iam_role.ec2-s3-role.name
   policy_arn = aws_iam_policy.s3_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_describe_attach" {
-  role       = aws_iam_role.ec2_s3_role.name
+  role       = aws_iam_role.ec2-s3-role.name
   policy_arn = aws_iam_policy.ec2_describe.arn
+}
+
+resource "aws_iam_role_policy_attachment" "k3s_elb_creation" {
+  role       = aws_iam_role.ec2-s3-role.name
+  policy_arn = data.aws_iam_policy.ALB_Controller_Policy.arn
 }
 
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "ec2_instance_profile"
-  role = aws_iam_role.ec2_s3_role.name
+  role = aws_iam_role.ec2-s3-role.name
 }
+
+data "aws_iam_policy" "ALB_Controller_Policy" {
+  name = "ALB_Controller_Policy"
+}
+
+# resource "aws_iam_instance_profile" "k3s_elb_creation" {
+#   name = "k3s_elb_creation"
+#   role = data.aws_iam_role.ALB_Controller_Role
+# }
 #This section commented on establishing a stable, accidently undestroyable connection with Github Actions.
 
 # resource "aws_iam_openid_connect_provider" "GitHub" {

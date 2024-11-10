@@ -25,7 +25,7 @@ echo "Master IP is: $MASTER_IP"
 
 # Install K3s on the worker node
 echo "Installing K3s on the worker node..."
-curl -sfL https://get.k3s.io | K3S_URL=https://$MASTER_IP:6443 K3S_TOKEN=MyFunnyToken12345 sh -
+curl -sfL https://get.k3s.io | K3S_URL=https://$MASTER_IP:6443  K3S_TOKEN=MyFunnyToken12345 sh -
 
 if [ $? -eq 0 ]; then
   echo "K3s installation completed successfully"
