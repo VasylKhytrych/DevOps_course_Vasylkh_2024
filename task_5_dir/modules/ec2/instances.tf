@@ -5,6 +5,11 @@ resource "aws_instance" "bastion" {
   key_name               = var.default_keypair["name"]
   iam_instance_profile   = var.iam_instance_profile_name
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
+  ebs_block_device {
+    delete_on_termination = true
+    device_name = "Bastion EBS"
+    volume_size = 50
+  }
 
   user_data = file("${path.module}/user_data_sh/default_instance_setup.sh")
 
