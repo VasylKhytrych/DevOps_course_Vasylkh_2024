@@ -73,6 +73,11 @@ resource "aws_iam_role_policy_attachment" "k3s_elb_creation" {
   policy_arn = data.aws_iam_policy.ALB_Controller_Policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "ECR_Access" {
+  role = aws_iam_role.ec2-s3-role.name
+  policy_arn = data.aws_iam_policy.ECR_Access.arn
+}
+
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "ec2_instance_profile"
   role = aws_iam_role.ec2-s3-role.name
@@ -80,6 +85,10 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 
 data "aws_iam_policy" "ALB_Controller_Policy" {
   name = "ALB_Controller_Policy"
+}
+
+data "aws_iam_policy" "ECR_Access" {
+  name = "ECR_Access"
 }
 
 # resource "aws_iam_instance_profile" "k3s_elb_creation" {

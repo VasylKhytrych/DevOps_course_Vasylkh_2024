@@ -5,11 +5,11 @@ resource "aws_instance" "bastion" {
   key_name               = var.default_keypair["name"]
   iam_instance_profile   = var.iam_instance_profile_name
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
-  ebs_block_device {
-    delete_on_termination = true
-    device_name = "Bastion EBS"
-    volume_size = 50
-  }
+  # ebs_block_device {
+  #   delete_on_termination = true
+  #   device_name           = "Bastion EBS"
+  #   volume_size           = 50
+  # }
 
   user_data = file("${path.module}/user_data_sh/default_instance_setup.sh")
 
@@ -23,7 +23,7 @@ resource "aws_instance" "bastion" {
 resource "aws_instance" "k3s-master" {
   ami = var.ami_id_default
   #  instance_type          = var.instance_type_default
-  instance_type          = "t3.small"
+  instance_type          = "t3.medium"
   subnet_id              = var.public_subnets_id[0]
   key_name               = var.default_keypair["name"]
   iam_instance_profile   = var.iam_instance_profile_name
@@ -43,7 +43,7 @@ resource "aws_instance" "k3s-master" {
 resource "aws_instance" "k3s-worker" {
   count         = 0
   ami           = var.ami_id_default
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
   #  instance_type          = var.instance_type_default
   subnet_id = var.public_subnets_id[1]
   #  subnet_id              = var.private_subnets_id[(count.index % 2) + 1] #worker nodes will be created in 2-nd and 3-th subnets

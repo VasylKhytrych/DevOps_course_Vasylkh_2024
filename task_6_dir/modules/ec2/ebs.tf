@@ -2,7 +2,7 @@
 #   availability_zone = aws_instance.bastion.availability_zone
 #   size              = 50
 #   type              = "gp3"
-  
+
 #   tags = {
 #     Creator = "Terraform"
 #     Name    = "BastionEBS"
