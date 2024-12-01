@@ -89,3 +89,15 @@ echo "Jenkins setup completed."
 # git clone https://github.com/VasylKhytrych/Helm-Jenkins-WP /opt/wp/
 # cd /opt/wp
 # helm install wordpress ./wordpress-chart/ --namespace default
+
+#PROM Install 
+mkdir /root/prom
+cd /root/prom
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/prometheus-values.yaml
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/prometheus \
+  --namespace monitoring \
+  --values prometheus-values.yaml
+
+kubectl expose service prometheus-server --namespace monitoring --type=NodePort --target-port=9090 --name=prometheus-server-ext
