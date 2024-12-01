@@ -1,31 +1,27 @@
-1. Task: https://github.com/rolling-scopes-school/tasks/blob/master/devops/modules/3_ci-configuration/task_5.md
-2. Screenshot: https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/tree/task_5_vasylk/Screens
-3. Code: https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/tree/task_5_vasylk
-4. WP chart: https://github.com/VasylKhytrych/Helm-Jenkins-WP
+1. Task: https://github.com/rolling-scopes-school/tasks/blob/master/devops/modules/4_monitoring-configuration/task_7.md
+2. Screenshot: https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/tree/task_7_vasylk/Screens
+3. Code: https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/tree/task_7_vasylk
+4. GIT with conf: https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/prometheus-values.yaml
 5. Tasks and my job review.
 
-- **Helm Chart Creation (40 points)**
-   - [x] A Helm chart for the WordPress application is created.
-      - ***My comment:*** Please check repo with chart -> [here](https://github.com/VasylKhytrych/Helm-Jenkins-WP/tree/main).
+- **Prometheus Installation (20 points)**
+   - [x] Prometheus is installed and running on the K8s cluster.
+      - ***My comment:*** Please check user_data script as CI/CD for PROM installation and [SS](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_7_vasylk/Screens/prom_pod.png) with result.
 
-- **Application Deployment (30 points)**
-   - [x] The application is deployed using the Helm chart.
-      - ***My comment:*** Please check SS with "helm list" output [here](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_5_vasylk/Screens/wp_helm.png).
-   - [x] The application is accessible from the internet.
-      - ***My comment:*** Please check SS from browser [here](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_5_vasylk/Screens/wp_public.png).
+- **Deployment Automation (30 points)**
+   - [x] Automation of deployment with IaC or CI/CD pipeline is created.
+      - ***My comment:*** Please check user_data script as CI/CD for PROM installation [here](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_7_vasylk/task_7_dir/modules/ec2/user_data_sh/k3s_master.sh).
 
-- **Repository Submission (5 points)**
-   - [x] A new repository is created with the WordPress and Helm chart.
-      - ***My comment:*** New repo was created and you can check app chart and config here -> [repo_link](https://github.com/VasylKhytrych/Helm-Jenkins-WP/tree/main).
+- **Web interface is available (10 points)**
+   - [x] Metrics can be checked via Prometheus web interface.
+      - ***My comment:*** Please check this [SS](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_7_vasylk/Screens/node_mem.png) from browser with metrics data.
 
-- **Verification (5 points)**
-   - [x] The application is verified to be running and accessible.
-     - ***My comment:*** Please check SS from browser [here](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_5_vasylk/Screens/wp_public.png) and status of deployment and pods [here](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_5_vasylk/Screens/wp_run.png).
+- **Metrics Collection (35 points)**
+   - [x] Prometheus is collecting essential cluster-specific metrics, such as nodes' memory usage.
+     - ***My comment:*** Please check this [SS](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_7_vasylk/Screens/node_mem.png) from browser with metrics data.
 
-- **Additional Tasks (20 points)**
-   - [x] A CI/CD pipeline is set up to automate the deployment of the application.
-     - ***My comment:*** Install process was integrated to user data part (as CI/CD via Jenkins should be done in the next, 6-th task). You can check user data [script](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_5_vasylk/task_5_dir/modules/ec2/user_data_sh/k3s_master.sh).
-   - [x] The application setup and deployment process are documented in a README file.
-     - ***My comment:*** All instructions was updated in [README.md](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_5_vasylk/README.md).
+- **Documentation is created (5 points)**
+   - [x] A README file is created or updated documenting the Prometheus deployment and configuration.
+     - ***My comment:*** Please check README.md [here](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/task_7_vasylk/README.md#task-7-setup--prometheus-setup).
 
   P.S. In case something is unclear or you need clarification to rate it, please contact me in the Discord -> @lunnoe_solnce.

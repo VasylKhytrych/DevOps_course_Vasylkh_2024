@@ -170,7 +170,7 @@ kubectl logs -f <wp-pod-name> -n default
 
 ## Task 7 setup | PROMETHEUS setup.
 
-All information provided before will be useful for general understanding and infra debug. Generally prom should be installed one on a server, that is why i added prom install in user data (CI/CD via GH Actions).
+All information provided before will be useful for general understanding and infra debug. Generally prom should be installed one time on a server, that is why i added prom install in user data (CI/CD via GH Actions).
 
 All you need to make this work is to:
 
