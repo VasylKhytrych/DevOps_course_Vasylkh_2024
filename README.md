@@ -16,7 +16,7 @@ This repository contains the Terraform configuration files used for provisioning
 │
 ├───Screens
 │       helm_verification.png
-│       Jenkins_via_pub.png
+│       WP_via_pub.png
 │       Job_result.png
 │       New_user.png
 │       PVC_on_local.png
@@ -33,11 +33,11 @@ This repository contains the Terraform configuration files used for provisioning
     ├───.terraform
     │   └───terraform.tfstate
     │
-    ├───jenkins_config
+    ├───WP_config
     │       hello_world_job.xml
-    │       jenkins-sa.yaml
-    │       jenkins-values.yaml
-    │       jenkins-volume.yaml
+    │       WP-sa.yaml
+    │       WP-values.yaml
+    │       WP-volume.yaml
     │       job_build_start.sh
     │
     └───modules
@@ -123,13 +123,13 @@ This repository contains the Terraform configuration files used for provisioning
 ## How to Use
 
   1. **The most work was scripted and automated, you just need:**
-    - git clone https://github.com/VasylKhytrych/Helm-Jenkins-WP.git
+    - git clone https://github.com/VasylKhytrych/Helm-WP-WP.git
     - change variables in values.yaml
     - run this workflow from GH Actions or locally with terraform
 
   2. **WP part** 
     - login to wp node
-    - login in Jenkins (port 32000) via admin account and pass
+    - login in WP (port 32000) via admin account and pass
     - preform basic setup of WP
     - Congrats, now you have working wp site.
   
@@ -138,28 +138,28 @@ This repository contains the Terraform configuration files used for provisioning
 
 ### Upgrading the Chart
 
-To upgrade the Jenkins Helm chart with new values or chart updates, use:
+To upgrade the WP Helm chart with new values or chart updates, use:
 ```bash
 helm upgrade wordpress ./wordpress-chart/ --namespace default
 ```
 ### Uninstalling the Chart
 
-To uninstall the Jenkins Helm chart and remove all associated resources, use:
+To uninstall the WP Helm chart and remove all associated resources, use:
 ```bash
 helm uninstall wordpress --namespace default
 ```
 
 ### Monitoring and Logs
 
-To check the status of the Jenkins deployment, use:
+To check the status of the WP deployment, use:
 ```bash
 kubectl get deployment wordpress -n default
 ```
-To view the status of pods associated with Jenkins, use:
+To view the status of pods associated with WP, use:
 ```bash
 kubectl get pods -n default
 ```
-To view logs of the Jenkins pod, first identify the pod name, then use:
+To view logs of the WP pod, first identify the pod name, then use:
 ```bash
 kubectl logs <wp-pod-name> -n default
 ```
@@ -167,3 +167,20 @@ To follow the logs in real-time, use:
 ```bash
 kubectl logs -f <wp-pod-name> -n default
 ```
+
+## Task 7 setup | PROMETHEUS setup.
+
+All information provided before will be useful for general understanding and infra debug. Generally prom should be installed one on a server, that is why i added prom install in user data (CI/CD via GH Actions).
+
+All you need to make this work is to:
+
+1. Clone repo with "prometheus-values.yaml" from here -> https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/prometheus-values.yaml OR just get file with WGET (as was done in user_data).
+
+2. Initialize terraform setup.
+
+What should be done:
+
+Script will create all required folders, download values file, deploy prom via helm and expose prom to world. 
+If you need to change config of Prometheus, you should do this in values file.
+
+This actions will be enough in scope of task #7.
