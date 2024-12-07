@@ -23,11 +23,11 @@ echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> ~/.bashrc
 source ~/.bashrc
 
 # Download configuration files
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_6_vasylk/task_6_dir/jenkins_config/jenkins-volume.yaml
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_6_vasylk/task_6_dir/jenkins_config/jenkins-sa.yaml
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_6_vasylk/task_6_dir/jenkins_config/jenkins-values.yaml
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_6_vasylk/task_6_dir/jenkins_config/hello_world_job.xml
-wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_6_vasylk/task_6_dir/jenkins_config/job_build_start.sh
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_8_vasylk/task_8_dir/jenkins_config/jenkins-volume.yaml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_8_vasylk/task_8_dir/jenkins_config/jenkins-sa.yaml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_8_vasylk/task_8_dir/jenkins_config/jenkins-values.yaml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_8_vasylk/task_8_dir/jenkins_config/hello_world_job.xml
+wget -P /opt/Jenkins/conf https://raw.githubusercontent.com/VasylKhytrych/DevOps_course_Vasylkh_2024/refs/heads/task_8_vasylk/task_8_dir/jenkins_config/job_build_start.sh
 
 chmod 777 /opt/Jenkins/conf/job_build_start.sh
 ln -s /opt/Jenkins/conf /root/conf
@@ -45,7 +45,7 @@ helm repo update
 
 # Install Jenkins via Helm
 chart=jenkinsci/jenkins
-helm install jenkins -n jenkins -f jenkins-values.yaml $chart
+helm upgrade --install jenkins -n jenkins -f jenkins-values.yaml $chart
 
 # Wait for 30 seconds
 log "Waiting for 30 seconds before changing ownership of Jenkins volume..."
@@ -96,8 +96,45 @@ cd /root/prom
 wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/prometheus-values.yaml
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install prometheus prometheus-community/prometheus \
+helm upgrade --install prometheus prometheus-community/prometheus \
   --namespace monitoring \
   --values prometheus-values.yaml
 
 kubectl expose service prometheus-server --namespace monitoring --type=NodePort --target-port=9090 --name=prometheus-server-ext
+
+#Grafana Install
+mkdir /root/grafana
+cd /root/grafana
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/grafana-default-values.yaml
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/dashboards.yaml
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/main_dashboard.json
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+#Create admin pass for grafana as k8s secret
+# kubectl create secret generic grafana-admin-secret \
+#   -n monitoring \
+#   --from-literal=password=<password> # replace <password> with desired pass | better to do it manually
+
+kubectl create secret generic grafana-datasources \
+  -n monitoring \
+  --from-literal=datasources.yaml='{
+    "apiVersion": 1,
+    "datasources": [
+      {
+        "name": "Prometheus",
+        "type": "prometheus",
+        "access": "proxy",
+        "url": "http://prometheus-server.monitoring.svc.cluster.local:80", 
+        "isDefault": true,
+        "editable": true
+      }
+    ]
+  }'
+
+kubectl create configmap grafana-dashboard-config   --from-file=/root/grafana/main_dashboard.json   -n monitoring
+kubectl create configmap grafana-dashboard-provider   -n monitoring   --from-file=root/grafana/dashboards.yaml
+
+
+helm upgrade --install grafana bitnami/grafana \
+  --namespace monitoring \
+  --values grafana-default-values.yaml

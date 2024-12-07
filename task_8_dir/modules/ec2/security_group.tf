@@ -150,7 +150,7 @@ resource "aws_security_group" "k3s_sg" {
   ingress {
     description = "Allow inbound service traffic for apps from alb"
     from_port   = 30000
-    to_port     = 32000
+    to_port     = 33000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
