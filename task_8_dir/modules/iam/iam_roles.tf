@@ -74,7 +74,7 @@ resource "aws_iam_role_policy_attachment" "k3s_elb_creation" {
 }
 
 resource "aws_iam_role_policy_attachment" "ECR_Access" {
-  role = aws_iam_role.ec2-s3-role.name
+  role       = aws_iam_role.ec2-s3-role.name
   policy_arn = data.aws_iam_policy.ECR_Access.arn
 }
 

@@ -184,3 +184,21 @@ Script will create all required folders, download values file, deploy prom via h
 If you need to change config of Prometheus, you should do this in values file.
 
 This actions will be enough in scope of task #7.
+
+## Task 8 setup | Grafana setup.
+
+All information provided before will be useful for general understanding and infra debug. Generally Grafana should be installed one time on a server, that is why i added Grafana install in user data (CI/CD via GH Actions).
+
+All you need to make this work is to:
+
+1. Clone and update repo with required from here -> https://github.com/VasylKhytrych/Helm-Jenkins-WP/tree/main/grafana OR just get files with WGET (as was done in user_data).
+
+2. Update main_dashboard.json with your exported dashboard config JSON.
+
+3. Create admin pass K8s secret manually, command you can check in "k3s_master.sh", in you don't want to fill your pass, then skip this step, random admin pass will be created.
+
+4. Initialize terraform setup.
+
+What should be done:
+
+Script will create all required folders, download required file, deploy Grafana via helm, load pre-configured Dashboard setting (previously exported), will attach pre-configured Prometheus data source. 
