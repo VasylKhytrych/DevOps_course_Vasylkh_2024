@@ -5,7 +5,6 @@
 5. Tasks and my job review.
 
 - **Contact Points created (10 points)**
-   - [x] Grafana is installed on the K8s cluster using the Helm chart by Bitnami.
       - ***My comment:***
 
 - **Alert Rules created (40 points)**

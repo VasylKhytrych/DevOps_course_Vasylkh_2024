@@ -218,3 +218,6 @@ All you need to make this work is to:
 4. All done. Initialize terraform setup.
 
 5. You can test this with stress test on your host.
+
+In case you need to change/add contact points/alert rules, please edit notifiers.yaml file from config GIT repo. 
+Better to do it manually on UI and export config, due to large amount of config lines.
