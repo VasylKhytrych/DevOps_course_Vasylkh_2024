@@ -202,3 +202,13 @@ All you need to make this work is to:
 What should be done:
 
 Script will create all required folders, download required file, deploy Grafana via helm, load pre-configured Dashboard setting (previously exported), will attach pre-configured Prometheus data source. 
+
+## Task 9 setup | Grafana alering setup.
+
+All information provided before will be useful for general understanding and infra debug. All Grafana configuration like contact points, alerting, boards and etc. will be provisioned (pre-installed) with YAMLs on setup.
+
+All you need to make this work is to:
+
+1. Manually create and configure AWS SNS endpoint, detailed step-by-step article [here](https://medium.com/@jayanthivikas123/integrating-aws-ses-smtp-with-grafana-helm-charts-for-seamless-email-notifications-68b279430526).
+
+2. Then update 

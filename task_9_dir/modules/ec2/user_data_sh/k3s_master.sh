@@ -111,9 +111,17 @@ wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/m
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 #Create admin pass for grafana as k8s secret
+
 # kubectl create secret generic grafana-admin-secret \
 #   -n monitoring \
 #   --from-literal=password=<password> # replace <password> with desired pass | better to do it manually
+
+#Create smtp user/pass creds for SMTP via AWS SNS as k8s secret
+
+# kubectl create secret generic smtp-creds \
+#   --from-literal=user=<your-smtp-username> \
+#   --from-literal=password=<your-smtp-password> \
+#   -n monitoring   #better to do it manually
 
 kubectl create secret generic grafana-datasources \
   -n monitoring \
@@ -133,6 +141,7 @@ kubectl create secret generic grafana-datasources \
 
 kubectl create configmap grafana-dashboard-config   --from-file=/root/grafana/main_dashboard.json   -n monitoring
 kubectl create configmap grafana-dashboard-provider   -n monitoring   --from-file=root/grafana/dashboards.yaml
+kubectl create configmap grafana-contact-point   --from-file=/root/grafana/notifiers.yaml   -n monitoring
 
 
 helm upgrade --install grafana bitnami/grafana \
