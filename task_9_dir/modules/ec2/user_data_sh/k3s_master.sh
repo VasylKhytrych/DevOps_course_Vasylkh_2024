@@ -105,9 +105,11 @@ kubectl expose service prometheus-server --namespace monitoring --type=NodePort 
 #Grafana Install
 mkdir /root/grafana
 cd /root/grafana
-wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/grafana-default-values.yaml
-wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/dashboards.yaml
-wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/prom/main_dashboard.json
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/grafana/grafana-default-values.yaml
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/grafana/dashboards.yaml
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/grafana/main_dashboard.json
+wget wget -P . https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/grafana/https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/main/grafana/notifiers.yaml
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 #Create admin pass for grafana as k8s secret
