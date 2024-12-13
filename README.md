@@ -211,4 +211,10 @@ All you need to make this work is to:
 
 1. Manually create and configure AWS SNS endpoint, detailed step-by-step article [here](https://medium.com/@jayanthivikas123/integrating-aws-ses-smtp-with-grafana-helm-charts-for-seamless-email-notifications-68b279430526).
 
-2. Then update 
+2. Then update [this](https://github.com/VasylKhytrych/DevOps_course_Vasylkh_2024/blob/7f4e320a27a2a54b4c6c1a951891888da15d13f9/task_9_dir/modules/ec2/user_data_sh/k3s_master.sh#L123-L126) part with your values and perform manually or just update script with values (only if this is QA or DEV env).
+
+3. Update email which should receive alert emails [here](https://github.com/VasylKhytrych/Helm-Jenkins-WP/blob/bdc259b5783fe63d104650f5bfa44eafa1212b3b/grafana/notifiers.yaml#L9).
+
+4. All done. Initialize terraform setup.
+
+5. You can test this with stress test on your host.
